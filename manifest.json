@@ -1,13 +1,13 @@
 {
-  "name": "꾸버하루",
-  "short_name": "꾸버하루",
-  "description": "청꺼비 처먹은술 & 핑꺼비 빼낸응가 귀여운 다꾸 캘린더",
+  "name": "삐옹하루",
+  "short_name": "삐옹하루",
+  "description": "노랑꺼비 처먹은술 & 핑꺼비 빼낸응가 귀여운 다꾸 캘린더",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#E2F0FD",
-  "theme_color": "#C5E4FC",
+  "background_color": "#FFF0F5",
+  "theme_color": "#FEDAE5",
   "icons": [
     {
       "src": "./icon.png",
