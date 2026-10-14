@@ -1,0 +1,19 @@
+{
+  "name": "꾸버하루",
+  "short_name": "꾸버하루",
+  "description": "청꺼비 처먹은술 & 핑꺼비 빼낸응가 귀여운 다꾸 캘린더",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E2F0FD",
+  "theme_color": "#C5E4FC",
+  "icons": [
+    {
+      "src": "./icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

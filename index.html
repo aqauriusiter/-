@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#E2F0FD">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="꾸버하루">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="manifest.json">
+  <title>꾸버하루</title>
+  <!-- 귀여운 둥근 단일 폰트 (전체 100% 통일) -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <style>
+    @font-face {
+      font-family: 'OmyuPretty';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      /* 꾸버하루 청량 파스텔 블루 다꾸 통합 컬러 팔레트 */
+      --bg-pink: #E2F0FD;        /* 메인 배경: 시원하고 부드러운 스카이 블루 */
+      --bg-pink-soft: #EDF6FE;   /* 보조 배경: 소프트 밀크 블루 */
+      --bg-Pink-pill: #C5E4FC;   /* 알약/버튼 블루 */
+      --bg-cream: #F5FAFF;       /* 카드 배경: 부드러운 화이트 크림 */
+      --bg-white: #FFFFFF;
+      --ink-dark: #1E293B;       /* 선명한 잉크 네이비 블랙 */
+      --ink-sub: #4A657E;        /* 차분한 슬레이트 블루 서브 텍스트 */
+      --cell-shadow: #B6DAF6;    /* 달력/카드 입체 다꾸 그림자 */
+
+      /* 파스텔 포인트 컬러 (모두 톤앤매너 통일) */
+      --toad-blue: #4BA3E3;
+      --toad-blue-soft: #DDF1FF;
+      --toad-blue-shadow: #94CBF3;
+
+      --toad-pink: #F28BB2;
+      --toad-pink-soft: #FFE4EE;
+      --toad-pink-shadow: #E5A5BE;
+
+      --soju-green: #76C275;
+      --soju-green-soft: #E7F7E7;
+
+      --poop-brown: #A66E4E;
+      --poop-brown-soft: #F7EBE3;
+
+      --sunday-red: #E05255;
+      --saturday-blue: #2A6DC2;
+
+      --unified-font: 'OmyuPretty', -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+
+    /* 모든 요소 폰트 100% 동일하게 통일 */
+    *, *::before, *::after, button, input, textarea, select, span, div, p, h1, h2, h3 {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--unified-font) !important;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    input, textarea {
+      user-select: text;
+    }
+
+    body {
+      background-color: #CBE4F8;
+      color: var(--ink-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .iphone-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background-color: var(--bg-pink);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: calc(98px + env(safe-area-inset-bottom, 16px));
+      box-shadow: 0 20px 60px rgba(35, 24, 21, 0.18);
+      overflow-x: hidden;
+    }
+
+    @media (min-width: 500px) {
+      body {
+        padding: 24px 0;
+      }
+      .iphone-shell {
+        min-height: 852px;
+        border-radius: 48px;
+        border: 8px solid #231815;
+        overflow: hidden;
+      }
+    }
+
+    /* 상단 헤더 */
+    .status-bar-spacer {
+      padding-top: max(12px, env(safe-area-inset-top));
+      background: rgba(248, 215, 223, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .dynamic-island-wrap {
+      display: none;
+      justify-content: center;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    @media (min-width: 500px) {
+      .dynamic-island-wrap {
+        display: flex;
+      }
+    }
+
+    .dynamic-island {
+      width: 118px;
+      height: 28px;
+      background: #231815;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+    }
+
+    .cute-top-bar {
+      padding: 6px 16px 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-mascot-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cute-app-title {
+      font-size: 25px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .cute-pill-btn {
+      border: 2px solid var(--ink-dark);
+      background: var(--bg-cream);
+      color: var(--ink-dark);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      box-shadow: inset -2px -2px 0 var(--cell-shadow), 0 2px 0 var(--ink-dark);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .cute-pill-btn:active {
+      transform: translateY(2px);
+      box-shadow: inset -1px -1px 0 var(--cell-shadow);
+    }
+
+    /* 월 이동 & 필터 바 */
+    .month-bar {
+      padding: 2px 16px 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .month-selector {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-cream);
+      border: 2px solid var(--ink-dark);
+      border-radius: 999px;
+      padding: 3px 10px;
+      box-shadow: inset -2px -2.5px 0 var(--cell-shadow);
+    }
+
+    .month-arrow-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: var(--ink-dark);
+      font-size: 19px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .month-title-text {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      min-width: 96px;
+      text-align: center;
+    }
+
+    /* 필터 세그먼트 */
+    .cute-segmented {
+      display: inline-flex;
+      background: var(--bg-Pink-pill);
+      border: 2px solid var(--ink-dark);
+      border-radius: 999px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .seg-btn {
+      border: 1.5px solid transparent;
+      background: transparent;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .seg-btn.active {
+      background: var(--bg-cream);
+      border-color: var(--ink-dark);
+      box-shadow: inset -1.5px -2px 0 var(--cell-shadow);
+    }
+
+    /* 컨텐츠 영역 */
+    .ios-content {
+      padding: 6px 14px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .tab-pane {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tab-pane.active {
+      display: flex;
+    }
+
+    /* 상단 청꺼비(처먹은술) & 핑꺼비(빼낸응가) 요약 카드 */
+    .mascot-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+
+    .mascot-card {
+      background: var(--bg-cream);
+      border: 2.2px solid var(--ink-dark);
+      border-radius: 20px;
+      padding: 10px 11px;
+      box-shadow: inset -2.5px -3.5px 0 var(--cell-shadow), 0 2px 0 rgba(35, 24, 21, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .mascot-svg-wrap {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    .mascot-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .mascot-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mascot-val {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mascot-sub {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* =====================================================
+       동글동글 다꾸 캘린더 (월요일 시작 · 가로세로 크기 100% 고정)
+       ===================================================== */
+    .doodle-calendar-stage {
+      position: relative;
+      padding: 8px 4px 18px 4px;
+      width: 100%;
+    }
+
+    .sticker-deco {
+      position: absolute;
+      pointer-events: none;
+      z-index: 5;
+      filter: drop-shadow(0 2px 2px rgba(35,24,21,0.1));
+    }
+
+    .sticker-soju-tl {
+      top: 24px;
+      left: 2px;
+      width: 56px;
+      height: 62px;
+    }
+
+    .sticker-poop-br {
+      bottom: -6px;
+      right: 4px;
+      width: 82px;
+      height: 52px;
+    }
+
+    /* 요일 줄과 달력 그리드의 열 너비·간격을 100% 동일하게 고정 */
+    .weekday-row {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      column-gap: 6px;
+      text-align: center;
+      margin-bottom: 8px;
+      padding: 0;
+      width: 100%;
+    }
+
+    .weekday-row span {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .weekday-row span.sat-hdr { color: var(--saturday-blue); }
+    .weekday-row span.sun-hdr { color: var(--sunday-red); }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      grid-auto-rows: 68px;
+      gap: 7px 6px;
+      padding: 0;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cal-cell {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: 68px;
+      min-height: 68px;
+      max-height: 68px;
+      border-radius: 18px;
+      background: var(--bg-cream);
+      border: 2.2px solid var(--ink-dark);
+      box-shadow: inset -3px -4px 0px var(--cell-shadow), 0 2px 0 rgba(35, 24, 21, 0.08);
+      padding: 5px 1px 4px 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cal-cell.empty {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .cal-cell:not(.empty):active {
+      transform: scale(0.92);
+    }
+
+    .cal-cell.today {
+      background: #FFEDF2;
+      border-width: 2.2px;
+    }
+
+    .cal-day-num {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      height: 20px;
+      line-height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cal-cell.today .cal-day-num {
+      background: var(--ink-dark);
+      color: #FFFFFF !important;
+      border-radius: 999px;
+      padding: 0 6px;
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .cal-cell.sat .cal-day-num { color: var(--saturday-blue); }
+    .cal-cell.sun .cal-day-num { color: var(--sunday-red); }
+
+    .cal-icons-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      width: 100%;
+      height: 20px;
+      min-height: 20px;
+      max-height: 20px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .cal-stamp-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cal-guide-tip {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink-sub);
+      margin-top: 2px;
+    }
+
+    /* =====================================================
+       날짜 클릭 시 진입하는 [해당 일 상세 페이지]
+       ===================================================== */
+    .day-detail-page {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      animation: popIn 0.16s ease-out;
+    }
+
+    .day-detail-page.active {
+      display: flex;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .doodle-card {
+      background: var(--bg-cream);
+      border: 2.2px solid var(--ink-dark);
+      border-radius: 22px;
+      padding: 15px 14px;
+      box-shadow: inset -3px -4px 0px var(--cell-shadow), 0 3px 0 rgba(35, 24, 21, 0.08);
+    }
+
+    .detail-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-cream);
+      border: 2.2px solid var(--ink-dark);
+      padding: 10px 14px;
+      border-radius: 20px;
+      box-shadow: inset -2.5px -3px 0px var(--cell-shadow);
+    }
+
+    .back-to-cal-btn {
+      border: 2px solid var(--ink-dark);
+      background: var(--toad-pink-soft);
+      color: var(--ink-dark);
+      font-size: 14.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: inset -1.5px -2px 0 var(--toad-pink-shadow);
+    }
+
+    .detail-date-heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-dark);
+    }
+
+    .detail-day-step-btns {
+      display: flex;
+      gap: 5px;
+    }
+
+    .detail-day-step-btns button {
+      border: 2px solid var(--ink-dark);
+      background: var(--bg-white);
+      color: var(--ink-dark);
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .detail-status-banner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .detail-badge-box {
+      border-radius: 18px;
+      border: 2.2px solid var(--ink-dark);
+      padding: 11px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-cream);
+      box-shadow: inset -2.5px -3px 0 var(--cell-shadow);
+    }
+
+    .toad-state-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 999px;
+      border: 1.5px solid var(--ink-dark);
+      margin-top: 2px;
+    }
+
+    /* 배변 횟수 스테퍼 & 상태 (3단계 핑꺼비) */
+    .poop-count-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stepper-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-circle-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 2px solid var(--ink-dark);
+      background: var(--bg-white);
+      color: var(--ink-dark);
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--ink-dark);
+    }
+
+    .step-circle-btn.plus {
+      background: var(--toad-pink);
+      color: #FFFFFF;
+    }
+
+    .step-val-display {
+      font-size: 19px;
+      font-weight: 700;
+      min-width: 42px;
+      text-align: center;
+    }
+
+    .cond-select-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .cond-pill {
+      border: 2px solid var(--ink-dark);
+      background: var(--bg-white);
+      border-radius: 15px;
+      padding: 9px 4px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      color: var(--ink-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      transition: transform 0.1s ease;
+    }
+
+    .cond-pill:active {
+      transform: scale(0.95);
+    }
+
+    .cond-pill.active {
+      background: var(--toad-pink-soft);
+      box-shadow: inset -2px -2.5px 0 var(--toad-pink-shadow);
+    }
+
+    .drink-tier-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .drink-tier-pill {
+      border: 2px solid var(--ink-dark);
+      background: var(--bg-white);
+      border-radius: 15px;
+      padding: 8px 4px;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--ink-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      opacity: 0.65;
+      transition: all 0.15s ease;
+    }
+
+    .drink-tier-pill.active {
+      opacity: 1;
+      color: var(--ink-dark);
+      background: var(--toad-blue-soft);
+      box-shadow: inset -2px -2.5px 0 var(--toad-blue-shadow);
+    }
+
+    /* 7종 주류 병/잔 입력 */
+    .drink-input-row {
+      padding: 10px 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1.5px dashed #B6DAF6;
+      gap: 6px;
+    }
+
+    .drink-input-row:last-child {
+      border-bottom: none;
+    }
+
+    .drink-type-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 82px;
+    }
+
+    .drink-icon-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      border: 1.8px solid var(--ink-dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .drink-type-name {
+      font-size: 16.5px;
+      font-weight: 700;
+    }
+
+    .unit-pair-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .unit-stepper {
+      display: flex;
+      align-items: center;
+      background: var(--bg-pink-soft);
+      border: 1.8px solid var(--ink-dark);
+      border-radius: 12px;
+      padding: 3px 4px;
+      gap: 4px;
+    }
+
+    .unit-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1.6px solid var(--ink-dark);
+      background: var(--bg-white);
+      color: var(--ink-dark);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .unit-btn.add {
+      background: var(--toad-blue-soft);
+    }
+
+    .unit-val {
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 36px;
+      text-align: center;
+      color: var(--ink-dark);
+    }
+
+    .unit-val.has-val {
+      color: #1668A8;
+    }
+
+    .ios-memo-input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 2px solid var(--ink-dark);
+      border-radius: 14px;
+      background: var(--bg-white);
+      font-size: 16px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .cute-save-btn {
+      border: 2.2px solid var(--ink-dark);
+      background: var(--toad-blue);
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: 16px;
+      box-shadow: inset -2px -3px 0 #2B89CE, 0 3px 0 var(--ink-dark);
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
+
+    .cute-danger-btn {
+      border: 2px solid var(--ink-dark);
+      background: #FFE5E8;
+      color: var(--sunday-red);
+      font-size: 14.5px;
+      font-weight: 700;
+      padding: 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* =====================================================
+       월간 분석 탭 (파스텔 다꾸 톤앤매너 완벽 통일)
+       ===================================================== */
+    .section-header-title {
+      font-size: 18.5px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-title-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .drink-stat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .drink-stat-row {
+      background: var(--bg-white);
+      border: 2px solid var(--ink-dark);
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: inset -2px -2.5px 0 var(--cell-shadow);
+    }
+
+    .drink-stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 7px;
+    }
+
+    .drink-stat-name {
+      font-size: 15.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .drink-stat-amount {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      background: var(--bg-pink-soft);
+      border: 1.5px solid var(--ink-dark);
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+
+    .ios-bar-track {
+      width: 100%;
+      height: 10px;
+      background: #F7E1E6;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1.6px solid var(--ink-dark);
+    }
+
+    .ios-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .poop-cond-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .poop-cond-card {
+      background: var(--bg-white);
+      border: 2px solid var(--ink-dark);
+      border-radius: 16px;
+      padding: 10px 4px;
+      text-align: center;
+      box-shadow: inset -2px -2.5px 0 var(--cell-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .poop-cond-card .lbl { font-size: 13px; font-weight: 700; color: var(--ink-sub); }
+    .poop-cond-card .cnt { font-size: 16px; font-weight: 700; color: var(--ink-dark); }
+
+    .monthly-trend-scroll {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .monthly-trend-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 6px;
+      min-width: 360px;
+      align-items: end;
+      height: 134px;
+      padding-top: 18px;
+    }
+
+    .m-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .m-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 82px;
+    }
+
+    .m-bar {
+      width: 9px;
+      border-radius: 5px 5px 0 0;
+      border: 1.5px solid var(--ink-dark);
+      min-height: 5px;
+    }
+
+    .m-bar.drink { background: var(--toad-blue); }
+    .m-bar.poop { background: var(--toad-pink); }
+    .m-lbl { font-size: 12.5px; font-weight: 700; color: var(--ink-dark); }
+
+    .status-row-box {
+      background: var(--bg-white);
+      border: 2px solid var(--ink-dark);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: inset -2px -2.5px 0 var(--cell-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* =====================================================
+       하단 탭바 (다꾸 스티커 캡슐 디자인으로 완벽 통일)
+       ===================================================== */
+    .ios-tab-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 430px;
+      background: var(--bg-pink);
+      border-top: 2.2px solid var(--ink-dark);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 8px 14px max(12px, env(safe-area-inset-bottom)) 14px;
+      z-index: 90;
+    }
+
+    @media (min-width: 500px) {
+      .ios-tab-bar {
+        border-radius: 0 0 40px 40px;
+      }
+    }
+
+    .tab-item {
+      border: 2px solid transparent;
+      background: transparent;
+      border-radius: 16px;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--ink-sub);
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 700;
+      transition: all 0.14s ease;
+    }
+
+    .tab-item .tab-svg {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.14s ease;
+    }
+
+    .tab-item.active {
+      background: var(--bg-cream);
+      border-color: var(--ink-dark);
+      color: var(--ink-dark);
+      box-shadow: inset -2px -3px 0 var(--cell-shadow), 0 2px 0 rgba(35, 24, 21, 0.1);
+    }
+
+    .tab-item.active .tab-svg {
+      transform: scale(1.08);
+    }
+
+    .toast-ios {
+      position: fixed;
+      top: 64px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--ink-dark);
+      color: #FFFFFF;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14.5px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.22s ease;
+      z-index: 500;
+    }
+
+    .toast-ios.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .poop-cond-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .cond-select-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    /* 앱 다운로드 모달 */
+    .install-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(35, 24, 21, 0.48);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 600;
+    }
+
+    .install-modal-backdrop.show {
+      display: flex;
+    }
+
+    .install-modal-box {
+      width: 100%;
+      max-width: 360px;
+      background: var(--bg-cream);
+      border: 2.5px solid var(--ink-dark);
+      border-radius: 26px;
+      padding: 20px 18px;
+      box-shadow: inset -3px -4px 0 var(--cell-shadow), 0 12px 30px rgba(35, 24, 21, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .install-dl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 2.2px solid var(--ink-dark);
+      background: var(--toad-blue);
+      color: #FFFFFF;
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: inset -2px -3px 0 #2D7FBD, 0 3px 0 var(--ink-dark);
+      cursor: pointer;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="iphone-shell">
+    <!-- 상단 바 -->
+    <div class="status-bar-spacer">
+      <div class="dynamic-island-wrap">
+        <div class="dynamic-island">
+          <span style="width:10px;height:10px;border-radius:50%;background:#111;"></span>
+        </div>
+      </div>
+
+      <div class="cute-top-bar">
+        <div class="brand-mascot-group">
+          <div class="cute-app-title">
+            <!-- 미니 청꺼비 얼굴 아이콘 -->
+            <svg viewBox="0 0 40 40" width="28" height="28">
+              <path d="M6 26 C4 14, 10 7, 16 11 C19 10, 21 10, 24 11 C30 7, 36 14, 34 26 C34 33, 28 36, 20 36 C12 36, 6 33, 6 26 Z" fill="#5BB4F5" stroke="#231815" stroke-width="2.8" stroke-linejoin="round"/>
+              <circle cx="14" cy="16" r="4.2" fill="#231815"/>
+              <circle cx="13" cy="14.8" r="1.4" fill="#FFFFFF"/>
+              <circle cx="26" cy="16" r="4.2" fill="#231815"/>
+              <circle cx="25" cy="14.8" r="1.4" fill="#FFFFFF"/>
+              <path d="M11 24 Q16 22 20 25 Q24 22 29 24" fill="none" stroke="#231815" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span>꾸버하루</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button class="cute-pill-btn" style="background:var(--toad-blue-soft);" onclick="openInstallModal()">어플 설치</button>
+          <button class="cute-pill-btn" onclick="goTodayCalendar()">오늘</button>
+        </div>
+      </div>
+
+      <!-- 월 이동 & 필터 -->
+      <div class="month-bar" id="topMonthBar">
+        <div class="month-selector">
+          <button class="month-arrow-btn" onclick="changeMonth(-1)">‹</button>
+          <div class="month-title-text" id="monthTitleText">2026년 10월</div>
+          <button class="month-arrow-btn" onclick="changeMonth(1)">›</button>
+        </div>
+
+        <div class="cute-segmented" id="calFilterSeg">
+          <button class="seg-btn active" data-mode="all" onclick="setCalFilter('all')">전체</button>
+          <button class="seg-btn" data-mode="drink" onclick="setCalFilter('drink')">술만</button>
+          <button class="seg-btn" data-mode="poop" onclick="setCalFilter('poop')">응가만</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="ios-content">
+      <div class="tab-pane active" id="tabCalendar">
+        <!-- [뷰 A] 월간 달력 뷰 -->
+        <div id="calendarMainView" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- 청꺼비(처먹은술) & 핑꺼비(빼낸응가) 캐릭터 요약 카드 (고정 일러스트) -->
+          <div class="mascot-summary-grid">
+            <!-- 청꺼비 카드 -->
+            <div class="mascot-card">
+              <div class="mascot-svg-wrap">
+                <svg viewBox="0 0 100 100" width="48" height="48">
+                  <ellipse cx="50" cy="62" rx="34" ry="30" fill="#5BB4F5" stroke="#231815" stroke-width="4.5"/>
+                  <path d="M18 52 C14 30, 26 16, 38 24 C46 22, 54 22, 62 24 C74 16, 86 30, 82 52 Z" fill="#5BB4F5" stroke="#231815" stroke-width="4.5" stroke-linejoin="round"/>
+                  <ellipse cx="50" cy="67" rx="24" ry="21" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
+                  <circle cx="34" cy="31" r="9.5" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
+                  <circle cx="35" cy="31" r="6.5" fill="#231815"/>
+                  <path d="M31 27 A4 4 0 0 1 37 29" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="37" cy="34" r="1.6" fill="#FFFFFF"/>
+                  <circle cx="66" cy="31" r="9.5" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
+                  <circle cx="65" cy="31" r="6.5" fill="#231815"/>
+                  <path d="M61 27 A4 4 0 0 1 67 29" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="67" cy="34" r="1.6" fill="#FFFFFF"/>
+                  <path d="M24 44 Q38 41 46 45 Q50 48 54 45 Q62 41 76 44" fill="none" stroke="#231815" stroke-width="4" stroke-linecap="round"/>
+                  <path d="M78 56 C90 44, 96 52, 84 65" fill="#5BB4F5" stroke="#231815" stroke-width="4" stroke-linecap="round"/>
+                  <circle cx="30" cy="86" r="9" fill="#5BB4F5" stroke="#231815" stroke-width="4"/>
+                  <circle cx="70" cy="86" r="9" fill="#5BB4F5" stroke="#231815" stroke-width="4"/>
+                </svg>
+              </div>
+              <div class="mascot-info">
+                <div class="mascot-label">처먹은술</div>
+                <div class="mascot-val" id="miniDrinkTotalText">0병 0잔</div>
+                <div class="mascot-sub" id="miniDrinkDaysPct">이번 달 0일 마심</div>
+              </div>
+            </div>
+
+            <!-- 핑꺼비 카드 -->
+            <div class="mascot-card">
+              <div class="mascot-svg-wrap">
+                <svg viewBox="0 0 100 100" width="48" height="48">
+                  <ellipse cx="50" cy="63" rx="33" ry="29" fill="#F28BB2" stroke="#231815" stroke-width="4.5"/>
+                  <path d="M19 52 C15 31, 27 17, 38 25 C46 23, 54 23, 62 25 C73 17, 85 31, 81 52 Z" fill="#F28BB2" stroke="#231815" stroke-width="4.5" stroke-linejoin="round"/>
+                  <ellipse cx="50" cy="68" rx="23" ry="20" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
+                  <path d="M24 24 L20 20 M76 24 L80 20" stroke="#231815" stroke-width="3.5" stroke-linecap="round"/>
+                  <circle cx="34" cy="31" r="9" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
+                  <circle cx="35" cy="31" r="6" fill="#231815"/>
+                  <path d="M31 27 A3.5 3.5 0 0 1 37 29" stroke="#FFFFFF" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+                  <circle cx="37" cy="34" r="1.5" fill="#FFFFFF"/>
+                  <circle cx="66" cy="31" r="9" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
+                  <circle cx="65" cy="31" r="6" fill="#231815"/>
+                  <path d="M61 27 A3.5 3.5 0 0 1 67 29" stroke="#FFFFFF" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+                  <circle cx="67" cy="34" r="1.5" fill="#FFFFFF"/>
+                  <path d="M26 44 Q39 41 46 45 Q50 47 54 45 Q61 41 74 44" fill="none" stroke="#231815" stroke-width="3.8" stroke-linecap="round"/>
+                  <ellipse cx="24" cy="39" rx="4" ry="2.2" fill="#E05284"/>
+                  <ellipse cx="76" cy="39" rx="4" ry="2.2" fill="#E05284"/>
+                  <circle cx="59" cy="63" r="5" fill="#F28BB2" stroke="#D65C8A" stroke-width="1.5"/>
+                  <circle cx="29" cy="86" r="8.5" fill="#F28BB2" stroke="#231815" stroke-width="4"/>
+                  <circle cx="71" cy="86" r="8.5" fill="#F28BB2" stroke="#231815" stroke-width="4"/>
+                </svg>
+              </div>
+              <div class="mascot-info">
+                <div class="mascot-label">빼낸응가</div>
+                <div class="mascot-val" id="miniPoopTotalText">총 0회</div>
+                <div class="mascot-sub" id="miniPoopDaysText">이번 달 0일 성공</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 동글동글 다꾸 캘린더 영역 (월요일 시작 · 칸 크기 고정) -->
+          <div class="doodle-calendar-stage">
+            <!-- 좌측 상단 소주병+소주잔 스티커 -->
+            <svg class="sticker-deco sticker-soju-tl" viewBox="0 0 90 100">
+              <g transform="rotate(-7 45 50)">
+                <path d="M22 10 H38 V28 L46 42 V86 C46 90 42 92 30 92 C18 92 14 90 14 86 V42 L22 28 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+                <path d="M23 12 H37 V28 L45 42 V85 C45 89 41 91 30 91 C19 91 15 89 15 85 V42 L23 28 Z" fill="#76C275" stroke="#231815" stroke-width="3.5" stroke-linejoin="round"/>
+                <rect x="22" y="9" width="16" height="7" rx="2" fill="#E06360" stroke="#231815" stroke-width="3"/>
+                <rect x="16" y="48" width="28" height="26" rx="3" fill="#FFF9EA" stroke="#231815" stroke-width="3"/>
+                <path d="M21 57 L25 60 L21 63 M39 57 L35 60 L39 63" fill="none" stroke="#231815" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M27 65 Q30 69 33 65 Z" fill="#E87A90" stroke="#231815" stroke-width="2"/>
+                <path d="M52 58 H74 L71 86 C71 89 68 90 63 90 C58 90 55 89 55 86 Z" fill="#FFFFFF" stroke="#231815" stroke-width="3.2" stroke-linejoin="round"/>
+                <path d="M54 67 H72 L70 84 H56 Z" fill="#F4C2CB"/>
+              </g>
+            </svg>
+
+            <!-- 우측 하단 휴지+귀여운 응가 스티커 -->
+            <svg class="sticker-deco sticker-poop-br" viewBox="0 0 130 85">
+              <g transform="rotate(-6 35 45)">
+                <rect x="8" y="34" width="16" height="24" rx="2" fill="#FFFFFF" stroke="#231815" stroke-width="3"/>
+                <ellipse cx="34" cy="44" rx="14" ry="18" fill="#FFFFFF" stroke="#231815" stroke-width="3"/>
+                <ellipse cx="34" cy="34" rx="14" ry="6" fill="#FAF0F2" stroke="#231815" stroke-width="3"/>
+                <ellipse cx="34" cy="34" rx="5" ry="2.2" fill="#A68B7C" stroke="#231815" stroke-width="2.5"/>
+              </g>
+              <g transform="translate(56, 18)">
+                <path d="M30 8 C24 8, 22 16, 26 20 C16 20, 12 29, 18 35 C8 36, 6 49, 16 52 H50 C60 49, 58 36, 48 35 C54 29, 50 20, 40 20 C44 16, 40 8, 30 8 Z" fill="#A66E4E" stroke="#231815" stroke-width="3.5" stroke-linejoin="round"/>
+                <path d="M23 36 L27 39 L23 42 M43 36 L39 39 L43 42" fill="none" stroke="#231815" stroke-width="2.6" stroke-linecap="round"/>
+                <path d="M30 43 Q34 46 37 43" fill="none" stroke="#231815" stroke-width="2.5" stroke-linecap="round"/>
+              </g>
+            </svg>
+
+            <div class="weekday-row">
+              <span>월</span>
+              <span>화</span>
+              <span>수</span>
+              <span>목</span>
+              <span>금</span>
+              <span class="sat-hdr">토</span>
+              <span class="sun-hdr">일</span>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+
+          <div class="cal-guide-tip">
+            날짜 칸을 톡 누르면 그날의 상세 기록 페이지로 들어가요!
+          </div>
+        </div>
+
+        <!-- [뷰 B] 날짜 클릭 시 진입하는 상세 페이지 -->
+        <div class="day-detail-page" id="dayDetailPage">
+          <div class="detail-nav-bar">
+            <button class="back-to-cal-btn" onclick="closeDayDetailPage()">‹ 달력으로</button>
+            <div class="detail-date-heading" id="detailPageDateTitle">10월 13일 (화)</div>
+            <div class="detail-day-step-btns">
+              <button type="button" onclick="stepDetailDay(-1)">‹</button>
+              <button type="button" onclick="stepDetailDay(1)">›</button>
+            </div>
+          </div>
+
+          <!-- 오늘의 술/똥 요약 -->
+          <div class="detail-status-banner">
+            <div class="detail-badge-box">
+              <span id="detailDrinkBadgeSvg"></span>
+              <div>
+                <div style="font-size:13px; color:var(--ink-sub);">처먹은술</div>
+                <div style="font-size:15px; font-weight:700; margin-top:2px;" id="detailDrinkSummaryText">마신 술 없음</div>
+              </div>
+            </div>
+
+            <div class="detail-badge-box">
+              <span id="detailPoopBadgeSvg"></span>
+              <div>
+                <div style="font-size:13px; color:var(--ink-sub);">빼낸응가</div>
+                <div style="font-size:15px; font-weight:700; margin-top:2px;" id="detailPoopSummaryText">0회 (기록 없음)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1. 똥(배변) 기록 카드 -->
+          <div class="doodle-card">
+            <div class="poop-count-row">
+              <div style="display:flex; align-items:center; gap:9px;">
+                <span id="detailPoopCardIcon"></span>
+                <div>
+                  <div style="font-size:18px; font-weight:700;">오늘 빼낸응가 횟수</div>
+                  <div style="font-size:13px; color:var(--ink-sub);">1회 이상이면 달력에 응가 도장이 찍혀요</div>
+                </div>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="step-circle-btn" onclick="adjustDetailPoop(-1)">−</button>
+                <div class="step-val-display" id="detailPoopCountText">0회</div>
+                <button type="button" class="step-circle-btn plus" onclick="adjustDetailPoop(1)">+</button>
+              </div>
+            </div>
+
+            <div class="cond-select-row" id="detailPoopCondRow"></div>
+          </div>
+
+          <!-- 2. 술(7종 주류별 몇병/몇잔) 기록 카드 -->
+          <div class="doodle-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <div>
+                <div style="font-size:18px; font-weight:700;">오늘 처먹은술 기록 (병 / 잔)</div>
+                <div style="font-size:13px; color:var(--ink-sub);">조절하면 달력에 술 도장이 찍히고 자동 저장돼요</div>
+              </div>
+              <button type="button" class="cute-pill-btn" onclick="resetDetailDrinks()">술 0으로</button>
+            </div>
+            <div id="detailDrinkInputList"></div>
+          </div>
+
+          <!-- 3. 메모 및 완료 버튼 -->
+          <div class="doodle-card" style="display:flex; flex-direction:column; gap:10px;">
+            <div style="font-size:17px; font-weight:700;">이 날의 한줄 메모</div>
+            <input type="text" class="ios-memo-input" id="detailMemoInput" placeholder="예: 삼겹살에 소맥, 회식, 쾌변 성공 등" oninput="autoSaveDetailChanges()">
+            <button type="button" class="cute-save-btn" onclick="saveAndReturnToCalendar()">
+              ✓ 저장 완료 (달력으로 돌아가기)
+            </button>
+            <button type="button" class="cute-danger-btn" onclick="clearCurrentDayRecord()">
+              이 날짜 기록 지우기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 탭 2: 한 달 분석 탭 -->
+      <div class="tab-pane" id="tabAnalytics">
+        <div class="doodle-card">
+          <div class="section-header-title">
+            <div class="header-title-left">
+              <span id="anaSojuTitleIcon"></span>
+              <span>이번 달 처먹은술 분석</span>
+            </div>
+            <span style="font-size:14.5px; color:#1B6CA8;" id="anaDrinkSummaryBadge">총 0일 음주</span>
+          </div>
+          <div class="drink-stat-list" id="anaDrinkBreakdownList"></div>
+        </div>
+
+        <div class="doodle-card">
+          <div class="section-header-title">
+            <div class="header-title-left">
+              <span id="anaPoopTitleIcon"></span>
+              <span>이번 달 빼낸응가 분석</span>
+            </div>
+            <span style="font-size:14.5px; color:var(--poop-brown);" id="anaPoopSummaryBadge">총 0회</span>
+          </div>
+          <div class="poop-cond-grid" id="anaPoopCondGrid"></div>
+          <div id="anaCorrelationBox" style="margin-top:12px; background:var(--bg-white); border:2px solid var(--ink-dark); padding:11px 13px; border-radius:16px; font-size:14px; font-weight:700; line-height:1.5; box-shadow:inset -2px -2px 0 var(--cell-shadow);"></div>
+        </div>
+
+        <div class="doodle-card">
+          <div class="section-header-title">
+            <span id="anaYearTrendTitle">2026년 월별 기록 추이</span>
+            <span style="font-size:13px; color:var(--ink-sub);">파랑: 처먹은술 · 분홍: 빼낸응가</span>
+          </div>
+          <div class="monthly-trend-scroll">
+            <div class="monthly-trend-grid" id="anaMonthlyTrendGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 탭 3: 기록 목록 탭 -->
+      <div class="tab-pane" id="tabHistory">
+        <div class="doodle-card">
+          <div class="section-header-title">
+            <span id="historyListTitle">이번 달 일별 기록장</span>
+            <div style="display:flex; gap:6px;">
+              <button class="cute-pill-btn" onclick="exportDataBackup()">백업</button>
+              <button class="cute-pill-btn" onclick="document.getElementById('importJsonInput').click()">복원</button>
+              <input type="file" id="importJsonInput" accept=".json" style="display:none" onchange="importDataBackup(event)">
+            </div>
+          </div>
+          <div id="monthHistoryListContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하단 탭바: 다꾸 일러스트풍 커스텀 SVG 아이콘 적용 -->
+    <nav class="ios-tab-bar">
+      <button class="tab-item active" data-tab="tabCalendar" onclick="switchTab('tabCalendar')">
+        <span class="tab-svg">
+          <svg viewBox="0 0 36 36" width="25" height="25">
+            <rect x="4" y="7" width="28" height="25" rx="6" fill="#FFF6F8" stroke="#231815" stroke-width="2.6"/>
+            <path d="M4 13 C4 9.5, 6.5 7, 10 7 H26 C29.5 7, 32 9.5, 32 13 V15 H4 Z" fill="#F28BB2" stroke="#231815" stroke-width="2.6"/>
+            <rect x="10" y="3" width="3.5" height="7" rx="1.7" fill="#FFF6F8" stroke="#231815" stroke-width="2.2"/>
+            <rect x="22.5" y="3" width="3.5" height="7" rx="1.7" fill="#FFF6F8" stroke="#231815" stroke-width="2.2"/>
+            <circle cx="13" cy="21" r="2" fill="#5BB4F5"/>
+            <circle cx="23" cy="21" r="2" fill="#F28BB2"/>
+            <circle cx="18" cy="26" r="2" fill="#76C275"/>
+          </svg>
+        </span>
+        <span>달력</span>
+      </button>
+
+      <button class="tab-item" data-tab="tabAnalytics" onclick="switchTab('tabAnalytics')">
+        <span class="tab-svg">
+          <svg viewBox="0 0 36 36" width="25" height="25">
+            <rect x="4" y="5" width="28" height="26" rx="6" fill="#FFF6F8" stroke="#231815" stroke-width="2.6"/>
+            <rect x="9" y="18" width="5" height="9" rx="2" fill="#76C275" stroke="#231815" stroke-width="2.2"/>
+            <rect x="15.5" y="11" width="5" height="16" rx="2" fill="#5BB4F5" stroke="#231815" stroke-width="2.2"/>
+            <rect x="22" y="14" width="5" height="13" rx="2" fill="#F28BB2" stroke="#231815" stroke-width="2.2"/>
+          </svg>
+        </span>
+        <span>월간 분석</span>
+      </button>
+
+      <button class="tab-item" data-tab="tabHistory" onclick="switchTab('tabHistory')">
+        <span class="tab-svg">
+          <svg viewBox="0 0 36 36" width="25" height="25">
+            <rect x="6" y="4" width="24" height="28" rx="5" fill="#FFF6F8" stroke="#231815" stroke-width="2.6"/>
+            <path d="M12 4 V32" stroke="#F28BB2" stroke-width="3"/>
+            <path d="M16 12 H25 M16 18 H25 M16 24 H22" stroke="#231815" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="9" cy="12" r="1.5" fill="#231815"/>
+            <circle cx="9" cy="18" r="1.5" fill="#231815"/>
+            <circle cx="9" cy="24" r="1.5" fill="#231815"/>
+          </svg>
+        </span>
+        <span>기록장</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- 어플 설치 모달 (안드로이드 & 아이폰 모두 완벽 지원) -->
+  <div class="install-modal-backdrop" id="installModal" onclick="if(event.target===this) closeInstallModal()">
+    <div class="install-modal-box">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <div style="font-size:20px; font-weight:700;">꾸버하루 어플 설치</div>
+        <button class="cute-pill-btn" onclick="closeInstallModal()">닫기</button>
+      </div>
+
+      <!-- 안드로이드 (갤럭시 / 크롬 / 삼성인터넷) 안내 -->
+      <div style="background:var(--bg-white); border:2px solid var(--ink-dark); border-radius:16px; padding:12px; font-size:14.5px; line-height:1.5;">
+        <div style="font-size:16px; color:#2D7FBD; margin-bottom:4px; font-weight:700;">🤖 안드로이드 (갤럭시 / 크롬 / 삼성인터넷)</div>
+        1) 브라우저 우측 상단 <strong>메뉴(점 세 개 ⋮)</strong> 터치<br>
+        2) <strong>[홈 화면에 추가]</strong> 또는 <strong>[앱 설치]</strong>를 누르면 바탕화면에 <strong>꾸버하루</strong> 앱이 바로 생성됩니다!<br>
+        <button id="androidInstallBtn" class="install-dl-btn" style="display:none; margin-top:8px;" onclick="triggerAndroidInstall()">
+          📲 앱 바로 설치하기
+        </button>
+      </div>
+
+      <!-- 아이폰 (사파리) 안내 -->
+      <div style="background:var(--bg-white); border:2px solid var(--ink-dark); border-radius:16px; padding:12px; font-size:14.5px; line-height:1.5;">
+        <div style="font-size:16px; color:#2D7FBD; margin-bottom:4px; font-weight:700;">🍎 아이폰 (사파리 Safari)</div>
+        1) 사파리 하단 가운데 <strong>[공유]</strong> 버튼(네모 위 화살표 ⎋) 터치<br>
+        2) 메뉴에서 <strong>[홈 화면에 추가]</strong> 선택 후 <strong>[추가]</strong>를 누르면 바탕화면에 <strong>꾸버하루</strong> 앱이 바로 생성됩니다!
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-ios" id="iosToast">저장되었습니다</div>
+
+  <script>
+    // 달력 칸 내부에 찍히는 귀여운 술(소주병) & 똥(응가) 도장 아이콘 (18x18 고정)
+    const MINI_SOJU_SVG = `
+      <svg viewBox="0 0 36 36" width="18" height="18">
+        <path d="M13 3 H23 V10 L28 16 V31 C28 33.5 25.5 34.5 18 34.5 C10.5 34.5 8 33.5 8 31 V16 L13 10 Z" fill="#76C275" stroke="#231815" stroke-width="2.6" stroke-linejoin="round"/>
+        <rect x="12.5" y="1.5" width="11" height="4.5" rx="1.5" fill="#E06360" stroke="#231815" stroke-width="2.2"/>
+        <rect x="9.5" y="17.5" width="17" height="11" rx="2" fill="#FFF9EA" stroke="#231815" stroke-width="2"/>
+        <circle cx="15" cy="22.5" r="1.3" fill="#231815"/>
+        <circle cx="21" cy="22.5" r="1.3" fill="#231815"/>
+        <path d="M16.5 25 Q18 26.8 19.5 25" fill="none" stroke="#E06360" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    `;
+
+    const MINI_POOP_SVG = `
+      <svg viewBox="0 0 36 36" width="18" height="18">
+        <path d="M18 4 C14 4, 12.5 9.5, 15 12.5 C9.5 12.5, 7.5 18.5, 11 22 C4.5 23, 3.5 31, 10 32.5 H26 C32.5 31, 31.5 23, 25 22 C28.5 18.5, 26.5 12.5, 21 12.5 C23.5 9.5, 22 4, 18 4 Z" fill="#A66E4E" stroke="#231815" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="13.8" cy="23.5" r="1.6" fill="#231815"/>
+        <circle cx="22.2" cy="23.5" r="1.6" fill="#231815"/>
+        <ellipse cx="11" cy="25.8" rx="2" ry="1.1" fill="#F28BB2"/>
+        <ellipse cx="25" cy="25.8" rx="2" ry="1.1" fill="#F28BB2"/>
+        <path d="M16 27 Q18 29 20 27" fill="none" stroke="#231815" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `;
+
+    const BADGE_SOJU_SVG = MINI_SOJU_SVG.replace('width="18" height="18"', 'width="24" height="24"');
+    const BADGE_POOP_SVG = MINI_POOP_SVG.replace('width="18" height="18"', 'width="24" height="24"');
+
+    // 7종 주류 모두 다꾸 톤앤매너에 맞춘 파스텔 컬러 & 커스텀 SVG 아이콘
+    const DRINK_TYPES = [
+      {
+        key: '소주',
+        color: '#76C275',
+        bg: '#E7F7E7',
+        bottleStep: 0.5,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M10 3 H18 V8 L21 13 V24 H7 V13 L10 8 Z" fill="#76C275" stroke="#231815" stroke-width="2.2" stroke-linejoin="round"/><rect x="8" y="15" width="12" height="6" fill="#FFF9EA" stroke="#231815" stroke-width="1.6"/></svg>`
+      },
+      {
+        key: '맥주',
+        color: '#F7C95F',
+        bg: '#FFF6DC',
+        bottleStep: 1,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><rect x="6" y="9" width="12" height="15" rx="2" fill="#F7C95F" stroke="#231815" stroke-width="2.2"/><path d="M18 12 H22 V20 H18" fill="none" stroke="#231815" stroke-width="2.2"/><path d="M6 9 C5 6, 9 4, 12 6 C15 4, 19 6, 18 9 Z" fill="#FFFFFF" stroke="#231815" stroke-width="2"/></svg>`
+      },
+      {
+        key: '막걸리',
+        color: '#E5D3B3',
+        bg: '#FAF3E6',
+        bottleStep: 1,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M4 12 H24 L21 22 C20 24, 8 24, 7 22 Z" fill="#F5E6C8" stroke="#231815" stroke-width="2.2" stroke-linejoin="round"/><path d="M6 15 H22" stroke="#231815" stroke-width="1.8"/></svg>`
+      },
+      {
+        key: '와인',
+        color: '#E384B3',
+        bg: '#FCE8F2',
+        bottleStep: 1,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M8 5 H20 L19 13 C19 17, 9 17, 9 13 Z" fill="#E384B3" stroke="#231815" stroke-width="2.2"/><path d="M14 16 V24 M10 24 H18" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      },
+      {
+        key: '위스키',
+        color: '#E59A5C',
+        bg: '#FDEEE0',
+        bottleStep: 1,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><rect x="6" y="7" width="16" height="16" rx="2" fill="#FFF6F8" stroke="#231815" stroke-width="2.2"/><rect x="7.5" y="14" width="13" height="7.5" fill="#E59A5C"/></svg>`
+      },
+      {
+        key: '고량주',
+        color: '#EB7A78',
+        bg: '#FDE8E8',
+        bottleStep: 1,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M11 4 H17 V9 L21 14 V24 H7 V14 L11 9 Z" fill="#EB7A78" stroke="#231815" stroke-width="2.2" stroke-linejoin="round"/><circle cx="14" cy="18" r="3" fill="#FFF6DC" stroke="#231815" stroke-width="1.6"/></svg>`
+      },
+      {
+        key: '기타',
+        color: '#5BB4F5',
+        bg: '#E1F2FE',
+        bottleStep: 1,
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M6 6 H22 L14 15 Z" fill="#5BB4F5" stroke="#231815" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 15 V24 M9 24 H19" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      }
+    ];
+
+    const POOP_CONDS = [
+      {
+        key: '쾌변',
+        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#FFE0E9" stroke="#231815" stroke-width="2.3"/><path d="M10 14 Q12 11 14 14 M18 14 Q20 11 22 14" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/><path d="M11 19 Q16 24 21 19" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      },
+      {
+        key: '보통',
+        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#FFF6DC" stroke="#231815" stroke-width="2.3"/><circle cx="12" cy="14" r="1.8" fill="#231815"/><circle cx="20" cy="14" r="1.8" fill="#231815"/><path d="M12 20 Q16 22 20 20" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      },
+      {
+        key: '설사',
+        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#E1F2FE" stroke="#231815" stroke-width="2.3"/><path d="M10 13 L14 15 L10 17 M22 13 L18 15 L22 17" fill="none" stroke="#231815" stroke-width="2" stroke-linecap="round"/><path d="M11 21 Q14 19 16 21 Q18 23 21 21" fill="none" stroke="#231815" stroke-width="2" stroke-linecap="round"/></svg>`
+      },
+      {
+        key: '변비',
+        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#F7E1E6" stroke="#231815" stroke-width="2.3"/><path d="M10 13 L14 15 M22 13 L18 15" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/><path d="M12 21 Q16 18 20 21" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      }
+    ];
+
+    const STORAGE_KEY = 'ios_drink_poop_tracker_v2';
+
+    let appData = {
+      updatedAt: 0,
+      records: {}
+    };
+
+    const todayObj = new Date();
+    let currentYear = todayObj.getFullYear();
+    let currentMonth = todayObj.getMonth() + 1;
+    let selectedDateStr = formatDateYmd(todayObj.getFullYear(), todayObj.getMonth() + 1, todayObj.getDate());
+    let calFilterMode = 'all';
+
+    let detailPoopCount = 0;
+    let detailPoopCond = '쾌변';
+    let detailDrinks = {};
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById('androidInstallBtn');
+      if (btn) btn.style.display = 'flex';
+    });
+
+    async function triggerAndroidInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          showToast('앱이 설치되었습니다!');
+        }
+        deferredPrompt = null;
+        closeInstallModal();
+      }
+    }
+
+    function openInstallModal() {
+      if (deferredPrompt) {
+        const btn = document.getElementById('androidInstallBtn');
+        if (btn) btn.style.display = 'flex';
+      }
+      document.getElementById('installModal').classList.add('show');
+    }
+
+    function closeInstallModal() {
+      document.getElementById('installModal').classList.remove('show');
+    }
+
+    function formatDateYmd(y, m, d) {
+      return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+
+    function safeGet(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+
+    function safeSet(key, val) {
+      try { localStorage.setItem(key, val); } catch (e) {}
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('detailDrinkBadgeSvg').innerHTML = BADGE_SOJU_SVG;
+      document.getElementById('detailPoopBadgeSvg').innerHTML = BADGE_POOP_SVG;
+      document.getElementById('detailPoopCardIcon').innerHTML = BADGE_POOP_SVG;
+      document.getElementById('anaSojuTitleIcon').innerHTML = BADGE_SOJU_SVG;
+      document.getElementById('anaPoopTitleIcon').innerHTML = BADGE_POOP_SVG;
+
+      // 배변 상태 선택 버튼 초기화
+      const condRow = document.getElementById('detailPoopCondRow');
+      condRow.innerHTML = '';
+      POOP_CONDS.forEach(c => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cond-pill';
+        btn.dataset.cond = c.key;
+        btn.onclick = () => selectDetailPoopCond(c.key);
+        btn.innerHTML = `${c.svg}<span>${c.key}</span>`;
+        condRow.appendChild(btn);
+      });
+
+      await loadData();
+      renderAll();
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    });
+
+    async function loadData() {
+      let localObj = null;
+      const saved = safeGet(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.records) localObj = parsed;
+        } catch (e) {}
+      }
+
+      let serverObj = null;
+      try {
+        const res = await fetch('/api/data', { cache: 'no-store' });
+        if (res.ok) {
+          const sData = await res.json();
+          if (sData && sData.records) serverObj = sData;
+        }
+      } catch (e) {}
+
+      if (localObj && serverObj) {
+        const lTime = Number(localObj.updatedAt || 0);
+        const sTime = Number(serverObj.updatedAt || 0);
+        const lKeys = Object.keys(localObj.records || {}).length;
+        const sKeys = Object.keys(serverObj.records || {}).length;
+        if (lTime >= sTime && lKeys >= sKeys) {
+          appData = localObj;
+          saveData();
+        } else {
+          appData = serverObj;
+          safeSet(STORAGE_KEY, JSON.stringify(appData));
+        }
+      } else if (localObj) {
+        appData = localObj;
+      } else if (serverObj) {
+        appData = serverObj;
+        safeSet(STORAGE_KEY, JSON.stringify(appData));
+      } else {
+        appData = { updatedAt: Date.now(), records: {} };
+        safeSet(STORAGE_KEY, JSON.stringify(appData));
+      }
+    }
+
+    async function saveData() {
+      appData.updatedAt = Date.now();
+      safeSet(STORAGE_KEY, JSON.stringify(appData));
+      try {
+        await fetch('/api/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(appData)
+        });
+      } catch (e) {}
+    }
+
+    function hasDrinkInRecord(rec) {
+      if (!rec || !rec.drinks) return false;
+      return Object.values(rec.drinks).some(v => (Number(v.bottles || 0) > 0) || (Number(v.glasses || 0) > 0));
+    }
+
+    function hasPoopInRecord(rec) {
+      return Boolean(rec && rec.poop && Number(rec.poop.count || 0) > 0);
+    }
+
+    function formatAmountParts(bottles, glasses) {
+      const b = Number(bottles || 0);
+      const g = Number(glasses || 0);
+      const parts = [];
+      if (b > 0) parts.push(`${Number.isInteger(b) ? b : b.toFixed(1)}병`);
+      if (g > 0) parts.push(`${g}잔`);
+      return parts.length > 0 ? parts.join(' ') : '0';
+    }
+
+    function changeMonth(delta) {
+      currentMonth += delta;
+      if (currentMonth < 1) {
+        currentMonth = 12;
+        currentYear -= 1;
+      } else if (currentMonth > 12) {
+        currentMonth = 1;
+        currentYear += 1;
+      }
+      renderAll();
+    }
+
+    function goTodayCalendar() {
+      const now = new Date();
+      currentYear = now.getFullYear();
+      currentMonth = now.getMonth() + 1;
+      selectedDateStr = formatDateYmd(currentYear, currentMonth, now.getDate());
+      closeDayDetailPage();
+      switchTab('tabCalendar');
+      renderAll();
+    }
+
+    function setCalFilter(mode) {
+      calFilterMode = mode;
+      document.querySelectorAll('#calFilterSeg .seg-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+      renderCalendar();
+    }
+
+    function switchTab(tabId) {
+      if (tabId === 'tabCalendar') {
+        closeDayDetailPage();
+      } else {
+        document.getElementById('topMonthBar').style.display = 'flex';
+      }
+      document.querySelectorAll('.tab-pane').forEach(p => {
+        p.classList.toggle('active', p.id === tabId);
+      });
+      document.querySelectorAll('.ios-tab-bar .tab-item').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tabId);
+      });
+      renderAll();
+    }
+
+    function renderAll() {
+      document.getElementById('monthTitleText').textContent = `${currentYear}년 ${currentMonth}월`;
+      renderQuickSummary();
+      renderCalendar();
+      renderAnalyticsTab();
+      renderHistoryTab();
+    }
+
+    function getMonthRecords(year, month) {
+      const prefix = `${year}-${String(month).padStart(2, '0')}-`;
+      const result = [];
+      Object.keys(appData.records || {}).forEach(dateKey => {
+        if (dateKey.startsWith(prefix)) {
+          result.push({ date: dateKey, ...appData.records[dateKey] });
+        }
+      });
+      return result.sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    function renderQuickSummary() {
+      const monthRecs = getMonthRecords(currentYear, currentMonth);
+      let drinkDays = 0;
+      let totalBottles = 0;
+      let totalGlasses = 0;
+
+      let poopDays = 0;
+      let totalPoopCount = 0;
+
+      monthRecs.forEach(rec => {
+        if (hasDrinkInRecord(rec)) {
+          drinkDays += 1;
+          Object.entries(rec.drinks || {}).forEach(([, val]) => {
+            totalBottles += Number(val.bottles || 0);
+            totalGlasses += Number(val.glasses || 0);
+          });
+        }
+        if (hasPoopInRecord(rec)) {
+          poopDays += 1;
+          totalPoopCount += Number(rec.poop.count || 0);
+        }
+      });
+
+      document.getElementById('miniDrinkDaysPct').textContent = `이번 달 ${drinkDays}일 마심`;
+      document.getElementById('miniDrinkTotalText').textContent =
+        (totalBottles === 0 && totalGlasses === 0) ? '0병 0잔' : formatAmountParts(totalBottles, totalGlasses);
+
+      document.getElementById('miniPoopDaysText').textContent = `이번 달 ${poopDays}일 성공`;
+      document.getElementById('miniPoopTotalText').textContent = `총 ${totalPoopCount}회`;
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
+
+      const jsFirstDay = new Date(currentYear, currentMonth - 1, 1).getDay();
+      const mondayOffset = (jsFirstDay + 6) % 7;
+
+      const lastDate = new Date(currentYear, currentMonth, 0).getDate();
+      const todayStr = formatDateYmd(todayObj.getFullYear(), todayObj.getMonth() + 1, todayObj.getDate());
+
+      for (let i = 0; i < mondayOffset; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'cal-cell empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= lastDate; d++) {
+        const dateStr = formatDateYmd(currentYear, currentMonth, d);
+        const colIdx = (mondayOffset + d - 1) % 7;
+        const rec = (appData.records || {})[dateStr];
+        const isDrink = hasDrinkInRecord(rec);
+        const isPoop = hasPoopInRecord(rec);
+
+        const cell = document.createElement('div');
+        let cls = 'cal-cell';
+        if (colIdx === 5) cls += ' sat';
+        if (colIdx === 6) cls += ' sun';
+        if (dateStr === todayStr) cls += ' today';
+        cell.className = cls;
+
+        cell.onclick = () => {
+          openDayDetailPage(dateStr);
+        };
+
+        let iconsHtml = '';
+        if (isDrink && (calFilterMode === 'all' || calFilterMode === 'drink')) {
+          iconsHtml += `<span class="cal-stamp-icon" title="술 마신 날">${MINI_SOJU_SVG}</span>`;
+        }
+        if (isPoop && (calFilterMode === 'all' || calFilterMode === 'poop')) {
+          iconsHtml += `<span class="cal-stamp-icon" title="똥 싼 날">${MINI_POOP_SVG}</span>`;
+        }
+
+        cell.innerHTML = `
+          <div class="cal-day-num">${d}</div>
+          <div class="cal-icons-row">${iconsHtml}</div>
+        `;
+        grid.appendChild(cell);
+      }
+    }
+
+    function openDayDetailPage(dateStr) {
+      selectedDateStr = dateStr;
+      const [y, m] = dateStr.split('-').map(Number);
+      currentYear = y;
+      currentMonth = m;
+
+      document.querySelectorAll('.tab-pane').forEach(p => {
+        p.classList.toggle('active', p.id === 'tabCalendar');
+      });
+      document.querySelectorAll('.ios-tab-bar .tab-item').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === 'tabCalendar');
+      });
+
+      document.getElementById('calendarMainView').style.display = 'none';
+      document.getElementById('topMonthBar').style.display = 'none';
+      document.getElementById('dayDetailPage').classList.add('active');
+
+      loadDateIntoDetailPage(dateStr);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeDayDetailPage() {
+      document.getElementById('dayDetailPage').classList.remove('active');
+      document.getElementById('calendarMainView').style.display = 'flex';
+      document.getElementById('topMonthBar').style.display = 'flex';
+      renderAll();
+    }
+
+    function stepDetailDay(delta) {
+      const [y, m, d] = selectedDateStr.split('-').map(Number);
+      const nextDate = new Date(y, m - 1, d + delta);
+      const nextStr = formatDateYmd(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate());
+      selectedDateStr = nextStr;
+      currentYear = nextDate.getFullYear();
+      currentMonth = nextDate.getMonth() + 1;
+      loadDateIntoDetailPage(nextStr);
+    }
+
+    function loadDateIntoDetailPage(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const weekNames = ['일', '월', '화', '수', '목', '금', '토'];
+      const dow = weekNames[new Date(y, m - 1, d).getDay()];
+      document.getElementById('detailPageDateTitle').textContent = `${y}년 ${m}월 ${d}일 (${dow})`;
+
+      const existing = (appData.records || {})[dateStr] || {};
+      detailPoopCount = existing.poop ? Number(existing.poop.count || 0) : 0;
+      detailPoopCond = (existing.poop && existing.poop.condition) ? existing.poop.condition : '쾌변';
+
+      detailDrinks = {};
+      DRINK_TYPES.forEach(dt => {
+        const cur = (existing.drinks && existing.drinks[dt.key]) ? existing.drinks[dt.key] : { bottles: 0, glasses: 0 };
+        detailDrinks[dt.key] = {
+          bottles: Number(cur.bottles || 0),
+          glasses: Number(cur.glasses || 0)
+        };
+      });
+
+      document.getElementById('detailMemoInput').value = existing.memo || '';
+      refreshDetailPageUI();
+    }
+
+    function refreshDetailPageUI() {
+      const drinkParts = [];
+      DRINK_TYPES.forEach(dt => {
+        const v = detailDrinks[dt.key] || { bottles: 0, glasses: 0 };
+        if (v.bottles > 0 || v.glasses > 0) {
+          drinkParts.push(`${dt.key} ${formatAmountParts(v.bottles, v.glasses)}`);
+        }
+      });
+
+      document.getElementById('detailDrinkSummaryText').textContent =
+        drinkParts.length > 0 ? drinkParts.join(', ') : '마신 술 없음';
+
+      document.getElementById('detailPoopSummaryText').textContent =
+        detailPoopCount > 0 ? `${detailPoopCount}회 (${detailPoopCond})` : '0회 (기록 없음)';
+
+      document.getElementById('detailPoopCountText').textContent = `${detailPoopCount}회`;
+      document.querySelectorAll('#detailPoopCondRow .cond-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.cond === detailPoopCond);
+      });
+
+      const container = document.getElementById('detailDrinkInputList');
+      container.innerHTML = '';
+      DRINK_TYPES.forEach(dt => {
+        const val = detailDrinks[dt.key] || { bottles: 0, glasses: 0 };
+        const bText = Number.isInteger(val.bottles) ? `${val.bottles}병` : `${val.bottles.toFixed(1)}병`;
+        const gText = `${val.glasses}잔`;
+
+        const row = document.createElement('div');
+        row.className = 'drink-input-row';
+        row.innerHTML = `
+          <div class="drink-type-info">
+            <span class="drink-icon-badge" style="background:${dt.bg}">${dt.svg}</span>
+            <span class="drink-type-name">${dt.key}</span>
+          </div>
+          <div class="unit-pair-wrap">
+            <div class="unit-stepper">
+              <button type="button" class="unit-btn" onclick="changeDetailDrink('${dt.key}', 'bottles', -${dt.bottleStep})">−</button>
+              <span class="unit-val ${val.bottles > 0 ? 'has-val' : ''}">${bText}</span>
+              <button type="button" class="unit-btn add" onclick="changeDetailDrink('${dt.key}', 'bottles', ${dt.bottleStep})">+</button>
+            </div>
+            <div class="unit-stepper">
+              <button type="button" class="unit-btn" onclick="changeDetailDrink('${dt.key}', 'glasses', -1)">−</button>
+              <span class="unit-val ${val.glasses > 0 ? 'has-val' : ''}">${gText}</span>
+              <button type="button" class="unit-btn add" onclick="changeDetailDrink('${dt.key}', 'glasses', 1)">+</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function adjustDetailPoop(delta) {
+      detailPoopCount = Math.max(0, detailPoopCount + delta);
+      refreshDetailPageUI();
+      autoSaveDetailChanges();
+    }
+
+    function selectDetailPoopCond(condKey) {
+      detailPoopCond = condKey;
+      if (detailPoopCount === 0) detailPoopCount = 1;
+      refreshDetailPageUI();
+      autoSaveDetailChanges();
+    }
+
+    function changeDetailDrink(drinkKey, field, delta) {
+      if (!detailDrinks[drinkKey]) detailDrinks[drinkKey] = { bottles: 0, glasses: 0 };
+      const next = Math.max(0, Math.round((detailDrinks[drinkKey][field] + delta) * 10) / 10);
+      detailDrinks[drinkKey][field] = next;
+      refreshDetailPageUI();
+      autoSaveDetailChanges();
+    }
+
+    function resetDetailDrinks() {
+      DRINK_TYPES.forEach(dt => {
+        detailDrinks[dt.key] = { bottles: 0, glasses: 0 };
+      });
+      refreshDetailPageUI();
+      autoSaveDetailChanges();
+      showToast('마신 술을 0으로 초기화했습니다');
+    }
+
+    async function autoSaveDetailChanges() {
+      const cleanedDrinks = {};
+      Object.entries(detailDrinks).forEach(([k, v]) => {
+        if (v.bottles > 0 || v.glasses > 0) {
+          cleanedDrinks[k] = { bottles: v.bottles, glasses: v.glasses };
+        }
+      });
+
+      const memoVal = document.getElementById('detailMemoInput').value.trim();
+      const hasAny = Object.keys(cleanedDrinks).length > 0 || detailPoopCount > 0 || memoVal.length > 0;
+
+      if (!appData.records) appData.records = {};
+      if (hasAny) {
+        appData.records[selectedDateStr] = {
+          drinks: cleanedDrinks,
+          poop: { count: detailPoopCount, condition: detailPoopCond },
+          memo: memoVal
+        };
+      } else {
+        delete appData.records[selectedDateStr];
+      }
+
+      await saveData();
+    }
+
+    async function saveAndReturnToCalendar() {
+      await autoSaveDetailChanges();
+      showToast('저장되었습니다');
+      closeDayDetailPage();
+    }
+
+    async function clearCurrentDayRecord() {
+      detailPoopCount = 0;
+      detailPoopCond = '쾌변';
+      DRINK_TYPES.forEach(dt => {
+        detailDrinks[dt.key] = { bottles: 0, glasses: 0 };
+      });
+      document.getElementById('detailMemoInput').value = '';
+      if (appData.records && appData.records[selectedDateStr]) {
+        delete appData.records[selectedDateStr];
+      }
+      await saveData();
+      refreshDetailPageUI();
+      showToast('이 날의 기록을 지웠습니다');
+    }
+
+    function renderAnalyticsTab() {
+      const monthRecs = getMonthRecords(currentYear, currentMonth);
+      let drinkDays = 0;
+      const drinkStats = {};
+      DRINK_TYPES.forEach(dt => {
+        drinkStats[dt.key] = { ...dt, bottles: 0, glasses: 0, days: 0, score: 0 };
+      });
+
+      let poopDays = 0;
+      let totalPoops = 0;
+      const condCounts = { '쾌변': 0, '보통': 0, '설사': 0, '변비': 0 };
+
+      monthRecs.forEach(rec => {
+        if (hasDrinkInRecord(rec)) {
+          drinkDays += 1;
+          Object.entries(rec.drinks || {}).forEach(([k, v]) => {
+            if (!drinkStats[k]) return;
+            const b = Number(v.bottles || 0);
+            const g = Number(v.glasses || 0);
+            if (b > 0 || g > 0) {
+              drinkStats[k].bottles += b;
+              drinkStats[k].glasses += g;
+              drinkStats[k].days += 1;
+              drinkStats[k].score += (b * 7) + g;
+            }
+          });
+        }
+        if (hasPoopInRecord(rec)) {
+          poopDays += 1;
+          const c = Number(rec.poop.count || 0);
+          totalPoops += c;
+          const cond = rec.poop.condition || '쾌변';
+          if (condCounts[cond] !== undefined) condCounts[cond] += 1;
+        }
+      });
+
+      document.getElementById('anaDrinkSummaryBadge').textContent = `${currentMonth}월 총 ${drinkDays}일 음주`;
+      const maxScore = Math.max(1, ...Object.values(drinkStats).map(s => s.score));
+      const drinkListEl = document.getElementById('anaDrinkBreakdownList');
+      drinkListEl.innerHTML = '';
+
+      DRINK_TYPES.forEach(dt => {
+        const st = drinkStats[dt.key];
+        const widthPct = st.score > 0 ? Math.min(100, Math.round((st.score / maxScore) * 100)) : 0;
+        const row = document.createElement('div');
+        row.className = 'drink-stat-row';
+        row.innerHTML = `
+          <div class="drink-stat-top">
+            <div class="drink-stat-name">
+              <span class="drink-icon-badge" style="background:${st.bg}">${st.svg}</span>
+              <span>${st.key}</span>
+              <span style="font-size:13px; color:var(--ink-sub);">(${st.days}일)</span>
+            </div>
+            <div class="drink-stat-amount">${st.bottles === 0 && st.glasses === 0 ? '0병 0잔' : formatAmountParts(st.bottles, st.glasses)}</div>
+          </div>
+          <div class="ios-bar-track">
+            <div class="ios-bar-fill" style="width:${widthPct}%; background:${st.color}"></div>
+          </div>
+        `;
+        drinkListEl.appendChild(row);
+      });
+
+      document.getElementById('anaPoopSummaryBadge').textContent = `${currentMonth}월 ${poopDays}일 · 총 ${totalPoops}회`;
+      const condGridEl = document.getElementById('anaPoopCondGrid');
+      condGridEl.innerHTML = '';
+      POOP_CONDS.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'poop-cond-card';
+        card.innerHTML = `
+          <div>${c.svg}</div>
+          <div class="lbl">${c.key}</div>
+          <div class="cnt">${condCounts[c.key] || 0}일</div>
+        `;
+        condGridEl.appendChild(card);
+      });
+
+      let afterDrinkPoopDays = 0;
+      let afterDrinkLooseDays = 0;
+      monthRecs.forEach(rec => {
+        if (hasDrinkInRecord(rec)) {
+          const [y, m, d] = rec.date.split('-').map(Number);
+          const nextDate = new Date(y, m - 1, d + 1);
+          const nextStr = formatDateYmd(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate());
+          const nextRec = (appData.records || {})[nextStr];
+          if (hasPoopInRecord(nextRec)) {
+            afterDrinkPoopDays += 1;
+            if (nextRec.poop.condition === '설사') afterDrinkLooseDays += 1;
+          }
+        }
+      });
+
+      const corrBox = document.getElementById('anaCorrelationBox');
+      corrBox.innerHTML = `
+        <strong>처먹은술 × 빼낸응가 리포트</strong><br>
+        • 이번 달 술 마신 다음 날 화장실에 간 날은 <strong>${afterDrinkPoopDays}일</strong>이며, 그중 <strong>설사·무름(술똥)</strong> 상태는 <strong>${afterDrinkLooseDays}일</strong>이었어요!
+      `;
+
+      document.getElementById('anaYearTrendTitle').textContent = `${currentYear}년 월별 기록 추이`;
+      const trendGrid = document.getElementById('anaMonthlyTrendGrid');
+      trendGrid.innerHTML = '';
+
+      for (let m = 1; m <= 12; m++) {
+        const recs = getMonthRecords(currentYear, m);
+        const dCnt = recs.filter(hasDrinkInRecord).length;
+        const pCnt = recs.filter(hasPoopInRecord).length;
+        const dHeight = Math.min(100, Math.round((dCnt / 31) * 100));
+        const pHeight = Math.min(100, Math.round((pCnt / 31) * 100));
+
+        const col = document.createElement('div');
+        col.className = 'm-col';
+        col.innerHTML = `
+          <div style="font-size:11px; color:var(--ink-sub)">${dCnt}/${pCnt}</div>
+          <div class="m-bars">
+            <div class="m-bar drink" style="height:${Math.max(6, dHeight)}%"></div>
+            <div class="m-bar poop" style="height:${Math.max(6, pHeight)}%"></div>
+          </div>
+          <div class="m-lbl">${m}월</div>
+        `;
+        trendGrid.appendChild(col);
+      }
+    }
+
+    function renderHistoryTab() {
+      document.getElementById('historyListTitle').textContent = `${currentMonth}월 일별 기록장`;
+      const container = document.getElementById('monthHistoryListContainer');
+      container.innerHTML = '';
+
+      const monthRecs = getMonthRecords(currentYear, currentMonth).reverse();
+      if (monthRecs.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:30px 10px; color:var(--ink-sub); font-size:15px;">이번 달 기록된 내역이 없습니다.<br>달력에서 날짜를 눌러 기록해보세요!</div>`;
+        return;
+      }
+
+      monthRecs.forEach(rec => {
+        const isDrink = hasDrinkInRecord(rec);
+        const isPoop = hasPoopInRecord(rec);
+        const drinkDesc = [];
+        if (isDrink) {
+          DRINK_TYPES.forEach(dt => {
+            const v = rec.drinks[dt.key];
+            if (v && (v.bottles > 0 || v.glasses > 0)) {
+              drinkDesc.push(`${dt.key} ${formatAmountParts(v.bottles, v.glasses)}`);
+            }
+          });
+        }
+        const poopDesc = isPoop ? `빼낸응가 ${rec.poop.count}회 (${rec.poop.condition || '쾌변'})` : '';
+
+        const item = document.createElement('div');
+        item.className = 'status-row-box';
+        item.style.cursor = 'pointer';
+        item.onclick = () => openDayDetailPage(rec.date);
+        item.innerHTML = `
+          <div>
+            <div style="font-size:16px; margin-bottom:2px;">${rec.date.replace(/-/g, '.')}</div>
+            ${drinkDesc.length > 0 ? `<div style="font-size:14px; color:#1B6CA8;">처먹은술: ${drinkDesc.join(' · ')}</div>` : ''}
+            ${poopDesc ? `<div style="font-size:14px; color:var(--poop-brown);">${poopDesc}</div>` : ''}
+            ${rec.memo ? `<div style="font-size:13.5px; color:var(--ink-sub); margin-top:2px;">메모: ${escapeHtml(rec.memo)}</div>` : ''}
+          </div>
+          <span style="font-size:14px; color:var(--ink-dark);">상세 ›</span>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function exportDataBackup() {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(appData, null, 2));
+      const a = document.createElement('a');
+      a.href = dataStr;
+      a.download = `꾸버하루_백업_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('백업 파일이 저장되었습니다');
+    }
+
+    function importDataBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (parsed && parsed.records) {
+            appData = parsed;
+            await saveData();
+            renderAll();
+            showToast('데이터가 복원되었습니다');
+          }
+        } catch (err) {
+          alert('올바른 백업 파일이 아닙니다.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('iosToast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+    }
+  </script>
+</body>
+</html>
