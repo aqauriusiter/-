@@ -1638,11 +1638,21 @@
         </button>
       </div>
 
-      <!-- 아이폰 (사파리) 안내 -->
+      <!-- 아이폰 (사파리) 프로필 설치 & 홈 화면 추가 안내 -->
       <div style="background:var(--bg-white); border:2px solid var(--ink-dark); border-radius:16px; padding:12px; font-size:14.5px; line-height:1.5;">
-        <div style="font-size:16px; color:#2D7FBD; margin-bottom:4px; font-weight:700;">🍎 아이폰 (사파리 Safari)</div>
-        1) 사파리 하단 가운데 <strong>[공유]</strong> 버튼(네모 위 화살표 ⎋) 터치<br>
-        2) 메뉴에서 <strong>[홈 화면에 추가]</strong> 선택 후 <strong>[추가]</strong>를 누르면 바탕화면에 <strong>삐옹하루</strong> 앱이 바로 생성됩니다!
+        <div style="font-size:16px; color:#E05284; margin-bottom:6px; font-weight:700;">🍎 아이폰 전용 프로필 설치 (.mobileconfig)</div>
+        <a href="./bbiong_haru.mobileconfig" class="install-dl-btn" style="background:#FF8BA0; box-shadow:inset -2px -3px 0 #E8637C, 0 3px 0 var(--ink-dark); margin-bottom:8px;">
+          📲 아이폰 프로필 다운로드 (1초 설치)
+        </a>
+        <div style="font-size:13px; color:var(--ink-sub); line-height:1.5; margin-bottom:8px;">
+          <strong>설치 방법:</strong><br>
+          1) 위 버튼을 눌러 <strong>[허용]</strong> 터치<br>
+          2) 아이폰 <strong>[설정]</strong> 앱 열기 ➜ 맨 위 <strong>[프로필이 다운로드됨]</strong> 터치<br>
+          3) 우측 상단 <strong>[설치]</strong>를 누르면 홈 화면에 삐옹하루가 깔립니다! ✨
+        </div>
+        <div style="border-top:1.5px dashed var(--cell-shadow); padding-top:6px; font-size:12.5px; color:#8A7A75;">
+          💡 또는 사파리 하단 가운데 <strong>[공유]</strong>(⎋) ➜ <strong>[홈 화면에 추가]</strong>도 가능해요!
+        </div>
       </div>
     </div>
   </div>
@@ -1810,24 +1820,28 @@
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('detailDrinkBadgeSvg').innerHTML = BADGE_SOJU_SVG;
-      document.getElementById('detailPoopBadgeSvg').innerHTML = BADGE_POOP_SVG;
-      document.getElementById('detailPoopCardIcon').innerHTML = BADGE_POOP_SVG;
-      document.getElementById('anaSojuTitleIcon').innerHTML = BADGE_SOJU_SVG;
-      document.getElementById('anaPoopTitleIcon').innerHTML = BADGE_POOP_SVG;
+      const setSvg = (id, svg) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = svg;
+      };
+      setSvg('detailDrinkBadgeSvg', BADGE_SOJU_SVG);
+      setSvg('detailPoopBadgeSvg', BADGE_POOP_SVG);
+      setSvg('detailPoopCardIcon', BADGE_POOP_SVG);
 
       // 배변 상태 선택 버튼 초기화
       const condRow = document.getElementById('detailPoopCondRow');
-      condRow.innerHTML = '';
-      POOP_CONDS.forEach(c => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'cond-pill';
-        btn.dataset.cond = c.key;
-        btn.onclick = () => selectDetailPoopCond(c.key);
-        btn.innerHTML = `${c.svg}<span>${c.key}</span>`;
-        condRow.appendChild(btn);
-      });
+      if (condRow) {
+        condRow.innerHTML = '';
+        POOP_CONDS.forEach(c => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'cond-pill';
+          btn.dataset.cond = c.key;
+          btn.onclick = () => selectDetailPoopCond(c.key);
+          btn.innerHTML = `${c.svg}<span>${c.key}</span>`;
+          condRow.appendChild(btn);
+        });
+      }
 
       await loadData();
       renderAll();
