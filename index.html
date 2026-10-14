@@ -33,14 +33,15 @@
       --ink-sub: #4A657E;        /* 차분한 슬레이트 블루 서브 텍스트 */
       --cell-shadow: #B6DAF6;    /* 달력/카드 입체 다꾸 그림자 */
 
-      /* 파스텔 포인트 컬러 (모두 톤앤매너 통일) */
+      /* 청꺼비 시그니처 블루 */
       --toad-blue: #4BA3E3;
       --toad-blue-soft: #DDF1FF;
       --toad-blue-shadow: #94CBF3;
 
-      --toad-pink: #F28BB2;
-      --toad-pink-soft: #FFE4EE;
-      --toad-pink-shadow: #E5A5BE;
+      /* 보조 블루 (기존 핑크색 요소를 산뜻한 블루로 100% 통일) */
+      --toad-pink: #38A3E5;
+      --toad-pink-soft: #EDF6FE;
+      --toad-pink-shadow: #B6DAF6;
 
       --soju-green: #76C275;
       --soju-green-soft: #E7F7E7;
@@ -106,7 +107,7 @@
     /* 상단 헤더 */
     .status-bar-spacer {
       padding-top: max(12px, env(safe-area-inset-top));
-      background: rgba(248, 215, 223, 0.94);
+      background: rgba(226, 240, 253, 0.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       position: sticky;
@@ -428,7 +429,8 @@
     }
 
     .cal-cell.today {
-      background: #FFEDF2;
+      background: #D8ECFD;
+      border-color: var(--toad-blue);
       border-width: 2.2px;
     }
 
@@ -867,7 +869,7 @@
     .ios-bar-track {
       width: 100%;
       height: 10px;
-      background: #F7E1E6;
+      background: #DDF0FD;
       border-radius: 999px;
       overflow: hidden;
       border: 1.6px solid var(--ink-dark);
@@ -1183,12 +1185,12 @@
               </div>
             </div>
 
-            <!-- 핑꺼비 카드 -->
+            <!-- 핑꺼비/블루꺼비 카드 -->
             <div class="mascot-card">
               <div class="mascot-svg-wrap">
                 <svg viewBox="0 0 100 100" width="48" height="48">
-                  <ellipse cx="50" cy="63" rx="33" ry="29" fill="#F28BB2" stroke="#231815" stroke-width="4.5"/>
-                  <path d="M19 52 C15 31, 27 17, 38 25 C46 23, 54 23, 62 25 C73 17, 85 31, 81 52 Z" fill="#F28BB2" stroke="#231815" stroke-width="4.5" stroke-linejoin="round"/>
+                  <ellipse cx="50" cy="63" rx="33" ry="29" fill="#6EC1F8" stroke="#231815" stroke-width="4.5"/>
+                  <path d="M19 52 C15 31, 27 17, 38 25 C46 23, 54 23, 62 25 C73 17, 85 31, 81 52 Z" fill="#6EC1F8" stroke="#231815" stroke-width="4.5" stroke-linejoin="round"/>
                   <ellipse cx="50" cy="68" rx="23" ry="20" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
                   <path d="M24 24 L20 20 M76 24 L80 20" stroke="#231815" stroke-width="3.5" stroke-linecap="round"/>
                   <circle cx="34" cy="31" r="9" fill="#FFFFFF" stroke="#231815" stroke-width="3.5"/>
@@ -1200,11 +1202,11 @@
                   <path d="M61 27 A3.5 3.5 0 0 1 67 29" stroke="#FFFFFF" stroke-width="2.4" fill="none" stroke-linecap="round"/>
                   <circle cx="67" cy="34" r="1.5" fill="#FFFFFF"/>
                   <path d="M26 44 Q39 41 46 45 Q50 47 54 45 Q61 41 74 44" fill="none" stroke="#231815" stroke-width="3.8" stroke-linecap="round"/>
-                  <ellipse cx="24" cy="39" rx="4" ry="2.2" fill="#E05284"/>
-                  <ellipse cx="76" cy="39" rx="4" ry="2.2" fill="#E05284"/>
-                  <circle cx="59" cy="63" r="5" fill="#F28BB2" stroke="#D65C8A" stroke-width="1.5"/>
-                  <circle cx="29" cy="86" r="8.5" fill="#F28BB2" stroke="#231815" stroke-width="4"/>
-                  <circle cx="71" cy="86" r="8.5" fill="#F28BB2" stroke="#231815" stroke-width="4"/>
+                  <ellipse cx="24" cy="39" rx="4" ry="2.2" fill="#3B9EE8"/>
+                  <ellipse cx="76" cy="39" rx="4" ry="2.2" fill="#3B9EE8"/>
+                  <circle cx="59" cy="63" r="5" fill="#6EC1F8" stroke="#2E7EBE" stroke-width="1.5"/>
+                  <circle cx="29" cy="86" r="8.5" fill="#6EC1F8" stroke="#231815" stroke-width="4"/>
+                  <circle cx="71" cy="86" r="8.5" fill="#6EC1F8" stroke="#231815" stroke-width="4"/>
                 </svg>
               </div>
               <div class="mascot-info">
@@ -1397,12 +1399,12 @@
       <button class="tab-item active" data-tab="tabCalendar" onclick="switchTab('tabCalendar')">
         <span class="tab-svg">
           <svg viewBox="0 0 36 36" width="25" height="25">
-            <rect x="4" y="7" width="28" height="25" rx="6" fill="#FFF6F8" stroke="#231815" stroke-width="2.6"/>
-            <path d="M4 13 C4 9.5, 6.5 7, 10 7 H26 C29.5 7, 32 9.5, 32 13 V15 H4 Z" fill="#F28BB2" stroke="#231815" stroke-width="2.6"/>
-            <rect x="10" y="3" width="3.5" height="7" rx="1.7" fill="#FFF6F8" stroke="#231815" stroke-width="2.2"/>
-            <rect x="22.5" y="3" width="3.5" height="7" rx="1.7" fill="#FFF6F8" stroke="#231815" stroke-width="2.2"/>
+            <rect x="4" y="7" width="28" height="25" rx="6" fill="#F5FAFF" stroke="#231815" stroke-width="2.6"/>
+            <path d="M4 13 C4 9.5, 6.5 7, 10 7 H26 C29.5 7, 32 9.5, 32 13 V15 H4 Z" fill="#4BA3E3" stroke="#231815" stroke-width="2.6"/>
+            <rect x="10" y="3" width="3.5" height="7" rx="1.7" fill="#F5FAFF" stroke="#231815" stroke-width="2.2"/>
+            <rect x="22.5" y="3" width="3.5" height="7" rx="1.7" fill="#F5FAFF" stroke="#231815" stroke-width="2.2"/>
             <circle cx="13" cy="21" r="2" fill="#5BB4F5"/>
-            <circle cx="23" cy="21" r="2" fill="#F28BB2"/>
+            <circle cx="23" cy="21" r="2" fill="#6EC1F8"/>
             <circle cx="18" cy="26" r="2" fill="#76C275"/>
           </svg>
         </span>
@@ -1412,10 +1414,10 @@
       <button class="tab-item" data-tab="tabAnalytics" onclick="switchTab('tabAnalytics')">
         <span class="tab-svg">
           <svg viewBox="0 0 36 36" width="25" height="25">
-            <rect x="4" y="5" width="28" height="26" rx="6" fill="#FFF6F8" stroke="#231815" stroke-width="2.6"/>
+            <rect x="4" y="5" width="28" height="26" rx="6" fill="#F5FAFF" stroke="#231815" stroke-width="2.6"/>
             <rect x="9" y="18" width="5" height="9" rx="2" fill="#76C275" stroke="#231815" stroke-width="2.2"/>
             <rect x="15.5" y="11" width="5" height="16" rx="2" fill="#5BB4F5" stroke="#231815" stroke-width="2.2"/>
-            <rect x="22" y="14" width="5" height="13" rx="2" fill="#F28BB2" stroke="#231815" stroke-width="2.2"/>
+            <rect x="22" y="14" width="5" height="13" rx="2" fill="#3B9EE8" stroke="#231815" stroke-width="2.2"/>
           </svg>
         </span>
         <span>월간 분석</span>
@@ -1424,8 +1426,8 @@
       <button class="tab-item" data-tab="tabHistory" onclick="switchTab('tabHistory')">
         <span class="tab-svg">
           <svg viewBox="0 0 36 36" width="25" height="25">
-            <rect x="6" y="4" width="24" height="28" rx="5" fill="#FFF6F8" stroke="#231815" stroke-width="2.6"/>
-            <path d="M12 4 V32" stroke="#F28BB2" stroke-width="3"/>
+            <rect x="6" y="4" width="24" height="28" rx="5" fill="#F5FAFF" stroke="#231815" stroke-width="2.6"/>
+            <path d="M12 4 V32" stroke="#4BA3E3" stroke-width="3"/>
             <path d="M16 12 H25 M16 18 H25 M16 24 H22" stroke="#231815" stroke-width="2.5" stroke-linecap="round"/>
             <circle cx="9" cy="12" r="1.5" fill="#231815"/>
             <circle cx="9" cy="18" r="1.5" fill="#231815"/>
@@ -1484,8 +1486,8 @@
         <path d="M18 4 C14 4, 12.5 9.5, 15 12.5 C9.5 12.5, 7.5 18.5, 11 22 C4.5 23, 3.5 31, 10 32.5 H26 C32.5 31, 31.5 23, 25 22 C28.5 18.5, 26.5 12.5, 21 12.5 C23.5 9.5, 22 4, 18 4 Z" fill="#A66E4E" stroke="#231815" stroke-width="2.6" stroke-linejoin="round"/>
         <circle cx="13.8" cy="23.5" r="1.6" fill="#231815"/>
         <circle cx="22.2" cy="23.5" r="1.6" fill="#231815"/>
-        <ellipse cx="11" cy="25.8" rx="2" ry="1.1" fill="#F28BB2"/>
-        <ellipse cx="25" cy="25.8" rx="2" ry="1.1" fill="#F28BB2"/>
+        <ellipse cx="11" cy="25.8" rx="2" ry="1.1" fill="#E88B68"/>
+        <ellipse cx="25" cy="25.8" rx="2" ry="1.1" fill="#E88B68"/>
         <path d="M16 27 Q18 29 20 27" fill="none" stroke="#231815" stroke-width="2" stroke-linecap="round"/>
       </svg>
     `;
@@ -1518,10 +1520,10 @@
       },
       {
         key: '와인',
-        color: '#E384B3',
-        bg: '#FCE8F2',
+        color: '#7B5EA7',
+        bg: '#F1ECF8',
         bottleStep: 1,
-        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M8 5 H20 L19 13 C19 17, 9 17, 9 13 Z" fill="#E384B3" stroke="#231815" stroke-width="2.2"/><path d="M14 16 V24 M10 24 H18" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+        svg: `<svg viewBox="0 0 28 28" width="20" height="20"><path d="M8 5 H20 L19 13 C19 17, 9 17, 9 13 Z" fill="#7B5EA7" stroke="#231815" stroke-width="2.2"/><path d="M14 16 V24 M10 24 H18" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
       },
       {
         key: '위스키',
@@ -1549,7 +1551,7 @@
     const POOP_CONDS = [
       {
         key: '쾌변',
-        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#FFE0E9" stroke="#231815" stroke-width="2.3"/><path d="M10 14 Q12 11 14 14 M18 14 Q20 11 22 14" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/><path d="M11 19 Q16 24 21 19" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#D8ECFD" stroke="#231815" stroke-width="2.3"/><path d="M10 14 Q12 11 14 14 M18 14 Q20 11 22 14" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/><path d="M11 19 Q16 24 21 19" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
       },
       {
         key: '보통',
@@ -1561,7 +1563,7 @@
       },
       {
         key: '변비',
-        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#F7E1E6" stroke="#231815" stroke-width="2.3"/><path d="M10 13 L14 15 M22 13 L18 15" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/><path d="M12 21 Q16 18 20 21" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
+        svg: `<svg viewBox="0 0 32 32" width="24" height="24"><circle cx="16" cy="16" r="12" fill="#D2E8FB" stroke="#231815" stroke-width="2.3"/><path d="M10 13 L14 15 M22 13 L18 15" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/><path d="M12 21 Q16 18 20 21" fill="none" stroke="#231815" stroke-width="2.2" stroke-linecap="round"/></svg>`
       }
     ];
 

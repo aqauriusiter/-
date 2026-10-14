@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ggubeo-haru-v2';
+const CACHE_NAME = 'ggubeo-haru-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
