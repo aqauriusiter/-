@@ -1,10 +1,9 @@
-const CACHE_NAME = 'ppiong-haru-v4';
+const CACHE_NAME = 'ppiong-haru-v5';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon.png',
-  './bbiong_haru.mobileconfig'
+  './icon.png'
 ];
 
 self.addEventListener('install', (event) => {
